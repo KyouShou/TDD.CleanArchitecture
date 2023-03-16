@@ -1,14 +1,8 @@
 ﻿using Moq;
-using Newtonsoft.Json;
-using NSubstitute;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+using TDD.CleanArchitecture.Controllers;
+using TDD.CleanArchitecture.Exceptions;
+using TDD.CleanArchitecture.Service;
+using ContentResult = Microsoft.AspNetCore.Mvc.ContentResult;
 
 namespace TDD.CleanArchitecture.Tests
 {
@@ -28,16 +22,19 @@ namespace TDD.CleanArchitecture.Tests
         public void Student_Not_Exist()
         {
             ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
-            var applyScholarshipService = Mock.Of<IApplScholarshipService>();
-            Mock.Get(applyScholarshipService).Setup(s => s.Apply(applicationForm)).Throws(new StudentNotExistException("ANY_MESSAGE"));
-            var json = JsonConvert.SerializeObject(applicationForm);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var request = new HttpRequestMessage(HttpMethod.Post, "/scholarship/apply") { Content = content };
-            var response = _client.SendAsync(request).Result;
-            response.EnsureSuccessStatusCode();
-            var result = JsonConvert.DeserializeObject<ApiResponse<int>>(response.Content.ReadAsStringAsync().Result);
-            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-            Assert.AreEqual(987, result.Data);
+
+            var applScholarshipService = new Mock<IApplScholarshipService>();
+            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(new StudentNotExistException());
+
+
+            var controller = new ScholarshipController(applScholarshipService.Object);
+            var response = controller.Apply(applicationForm);
+
+            var statusCode = ((ContentResult)response).StatusCode;
+            var content = ((ContentResult)response).Content;
+
+            Assert.AreEqual(400, statusCode);
+            Assert.AreEqual("987", content);
         }
     }
 }

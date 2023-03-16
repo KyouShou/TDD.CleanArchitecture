@@ -14,7 +14,7 @@ namespace TDD.CleanArchitecture.Controllers
         }
 
         public IActionResult Index()
-        {
+        {            
             return View();
         }
 

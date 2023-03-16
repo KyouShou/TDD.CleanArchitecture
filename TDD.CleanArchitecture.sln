@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDD.CleanArchitecture.Tests", "TDD.CleanArchitecture.Tests\TDD.CleanArchitecture.Tests.csproj", "{5139C3FF-F3DD-45AD-A32D-EE57695E67E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDD.CleanArchitecture", "TDD.CleanArchitecture\TDD.CleanArchitecture.csproj", "{B6B0FF60-481A-4533-B730-E9F11103036E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5139C3FF-F3DD-45AD-A32D-EE57695E67E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5139C3FF-F3DD-45AD-A32D-EE57695E67E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5139C3FF-F3DD-45AD-A32D-EE57695E67E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B0FF60-481A-4533-B730-E9F11103036E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B0FF60-481A-4533-B730-E9F11103036E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B0FF60-481A-4533-B730-E9F11103036E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B0FF60-481A-4533-B730-E9F11103036E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
