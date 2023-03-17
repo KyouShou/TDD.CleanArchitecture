@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using TDD.CleanArchitecture.Controllers;
 using TDD.CleanArchitecture.Exceptions;
 using TDD.CleanArchitecture.Service;
@@ -21,38 +22,37 @@ namespace TDD.CleanArchitecture.Tests
         [Test]
         public void Student_Not_Exists()
         {
-            ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
-
-            var applScholarshipService = new Mock<IApplScholarshipService>();
-            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(new StudentNotExistException());
-
-
-            var controller = new ScholarshipController(applScholarshipService.Object);
-            var response = controller.Apply(applicationForm);
+            IActionResult response = Assume_Controller_Catch_Exception(new StudentNotExistException());
 
             var statusCode = ((ContentResult)response).StatusCode;
             var content = ((ContentResult)response).Content;
 
             Assert.AreEqual(400, statusCode);
             Assert.AreEqual("987", content);
-        }
+        }    
 
         [Test]
         public void Scholarship_Not_Exists()
         {
-            ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
-
-            var applScholarshipService = new Mock<IApplScholarshipService>();
-            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(new ScholarshipNotExistException());
-
-            var controller = new ScholarshipController(applScholarshipService.Object);
-            var response = controller.Apply(applicationForm);
+            IActionResult response = Assume_Controller_Catch_Exception(new ScholarshipNotExistException());
 
             var statusCode = ((ContentResult)response).StatusCode;
             var content = ((ContentResult)response).Content;
 
             Assert.AreEqual(400, statusCode);
             Assert.AreEqual("369", content);
+        }
+
+        private static IActionResult Assume_Controller_Catch_Exception(Exception exception)
+        {
+            ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
+
+            var applScholarshipService = new Mock<IApplScholarshipService>();
+            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(exception);
+
+            var controller = new ScholarshipController(applScholarshipService.Object);
+            var response = controller.Apply(applicationForm);
+            return response;
         }
     }
 }
