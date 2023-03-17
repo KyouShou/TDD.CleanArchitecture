@@ -1,7 +1,21 @@
-﻿namespace TDD.CleanArchitecture.Service
+﻿using TDD.CleanArchitecture.Repository;
+
+namespace TDD.CleanArchitecture.Service
 {
     public class ApplyScholarshipService : IApplyScholarshipService
     {
+        IStudentRepository _studentRepository;
+
+        public ApplyScholarshipService()
+        {
+        
+        }
+
+        public ApplyScholarshipService(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }   
+
         public void Apply(ApplicationForm applicationForm)
         {
             throw new NotImplementedException();
