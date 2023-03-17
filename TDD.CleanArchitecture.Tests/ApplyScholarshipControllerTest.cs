@@ -19,7 +19,7 @@ namespace TDD.CleanArchitecture.Tests
         }
 
         [Test]
-        public void Student_Not_Exist()
+        public void Student_Not_Exists()
         {
             ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
 
@@ -35,6 +35,24 @@ namespace TDD.CleanArchitecture.Tests
 
             Assert.AreEqual(400, statusCode);
             Assert.AreEqual("987", content);
+        }
+
+        [Test]
+        public void Scholarship_Not_Exists()
+        {
+            ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
+
+            var applScholarshipService = new Mock<IApplScholarshipService>();
+            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(new ScholarshipNotExistException());
+
+            var controller = new ScholarshipController(applScholarshipService.Object);
+            var response = controller.Apply(applicationForm);
+
+            var statusCode = ((ContentResult)response).StatusCode;
+            var content = ((ContentResult)response).Content;
+
+            Assert.AreEqual(400, statusCode);
+            Assert.AreEqual("369", content);
         }
     }
 }
