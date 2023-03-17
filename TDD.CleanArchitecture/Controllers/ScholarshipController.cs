@@ -35,6 +35,12 @@ namespace TDD.CleanArchitecture.Controllers
                 content.StatusCode = StatusCodes.Status400BadRequest;
                 return content;
             }
+            catch (DataAccessErrorException e)
+            {
+                var content = Content("666");
+                content.StatusCode = StatusCodes.Status500InternalServerError;
+                return content;
+            }
 
             return StatusCode(StatusCodes.Status200OK);
         }
