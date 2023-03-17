@@ -26,7 +26,16 @@ namespace TDD.CleanArchitecture.Tests
         [Test]
         public void All_Ok()
         {
-            ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService();
+            var mockRepository = new Mock<IStudentRepository>();
+            var fakeList = new List<Student>();
+            fakeList.Add(new Student()
+            {
+                Id = 1,
+                Name = "hello"
+            });
+            mockRepository.Setup(m => m.Find(12345L)).Returns(fakeList);
+
+            ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService(mockRepository.Object);
             ApplicationForm applicationForm = new ApplicationForm(12345L, 98765L);
 
             applyScholarshipService.Apply(applicationForm);
@@ -40,7 +49,7 @@ namespace TDD.CleanArchitecture.Tests
 
             ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService(mockStudentRepository.Object);
 
-            var applicationForm = new ApplicationForm(12345L , 98765L);
+            var applicationForm = new ApplicationForm(12345L, 98765L);
 
             Assert.Throws<StudentNotExistException>(() => applyScholarshipService.Apply(applicationForm));
         }
