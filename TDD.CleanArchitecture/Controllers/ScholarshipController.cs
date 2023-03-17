@@ -41,6 +41,12 @@ namespace TDD.CleanArchitecture.Controllers
                 content.StatusCode = StatusCodes.Status500InternalServerError;
                 return content;
             }
+            catch (Exception e)
+            {
+                var content = Content("999");
+                content.StatusCode = StatusCodes.Status500InternalServerError;
+                return content;
+            }
 
             return StatusCode(StatusCodes.Status200OK);
         }

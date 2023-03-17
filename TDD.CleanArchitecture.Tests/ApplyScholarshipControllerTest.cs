@@ -64,7 +64,7 @@ namespace TDD.CleanArchitecture.Tests
             var content = ((ContentResult)response).Content;
 
             Assert.AreEqual(500, statusCode);
-            Assert.AreEqual("200", content);
+            Assert.AreEqual("999", content);
         }
 
         private static IActionResult Assume_Controller_Catch_Exception(Exception exception)
