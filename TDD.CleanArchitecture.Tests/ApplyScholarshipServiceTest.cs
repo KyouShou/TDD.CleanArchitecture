@@ -13,18 +13,31 @@ namespace TDD.CleanArchitecture.Tests
 {
     internal class ApplyScholarshipServiceTest
     {
+        ApplicationForm _applicationForm;
+
         [SetUp]
         public void Setup()
         {
+            _applicationForm = new ApplicationForm(12345L, 98765L);
         }
 
         [TearDown]
         public void End()
         {
+            _applicationForm = null;
         }
 
         [Test]
         public void All_Ok()
+        {
+            Mock<IStudentRepository> mockRepository = GenerateMockRepositoryReturnsOneStudent();
+
+            ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService(mockRepository.Object);
+
+            applyScholarshipService.Apply(_applicationForm);
+        }
+
+        private static Mock<IStudentRepository> GenerateMockRepositoryReturnsOneStudent()
         {
             var mockRepository = new Mock<IStudentRepository>();
             var fakeList = new List<Student>();
@@ -34,24 +47,24 @@ namespace TDD.CleanArchitecture.Tests
                 Name = "hello"
             });
             mockRepository.Setup(m => m.Find(12345L)).Returns(fakeList);
-
-            ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService(mockRepository.Object);
-            ApplicationForm applicationForm = new ApplicationForm(12345L, 98765L);
-
-            applyScholarshipService.Apply(applicationForm);
+            return mockRepository;
         }
 
         [Test]
-        public void When_Student_Not_Exist_Then_987()
+        public void When_Student_Not_Exist_Then_StudentNotExistException()
         {
-            var mockStudentRepository = new Mock<IStudentRepository>();
-            mockStudentRepository.Setup(m => m.Find(12345L)).Returns(new List<Student>());
+            Mock<IStudentRepository> mockStudentRepository = GenerateRepositoryReturnsNoStudent();
 
             ApplyScholarshipService applyScholarshipService = new ApplyScholarshipService(mockStudentRepository.Object);
 
-            var applicationForm = new ApplicationForm(12345L, 98765L);
+            Assert.Throws<StudentNotExistException>(() => applyScholarshipService.Apply(_applicationForm));
+        }
 
-            Assert.Throws<StudentNotExistException>(() => applyScholarshipService.Apply(applicationForm));
+        private static Mock<IStudentRepository> GenerateRepositoryReturnsNoStudent()
+        {
+            var mockStudentRepository = new Mock<IStudentRepository>();
+            mockStudentRepository.Setup(m => m.Find(12345L)).Returns(new List<Student>());
+            return mockStudentRepository;
         }
     }
 }
