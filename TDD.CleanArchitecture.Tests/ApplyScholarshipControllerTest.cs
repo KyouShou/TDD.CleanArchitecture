@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
 using TDD.CleanArchitecture.Controllers;
 using TDD.CleanArchitecture.Exceptions;
 using TDD.CleanArchitecture.Service;
@@ -65,6 +66,24 @@ namespace TDD.CleanArchitecture.Tests
 
             Assert.AreEqual(500, statusCode);
             Assert.AreEqual("999", content);
+        }
+
+        [Test]
+        public void All_Ok()
+        {
+            ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
+
+            var applyScholarshipService = new Mock<IApplyScholarshipService>();
+            applyScholarshipService.Setup(m => m.Apply(applicationForm));
+
+            var controller = new ScholarshipController(applyScholarshipService.Object);
+            var response = controller.Apply(applicationForm);
+
+            var statusCode = ((ContentResult)response).StatusCode;
+            var content = ((ContentResult)response).Content;
+
+            Assert.AreEqual(200, statusCode);
+            Assert.AreEqual("", content);
         }
 
         private static IActionResult Assume_Controller_Catch_Exception(Exception exception)
