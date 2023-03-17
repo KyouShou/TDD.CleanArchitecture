@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IApplScholarshipService , ApplScholarshipService>();
+builder.Services.AddTransient<IApplyScholarshipService , ApplyScholarshipService>();
 
 var app = builder.Build();
 

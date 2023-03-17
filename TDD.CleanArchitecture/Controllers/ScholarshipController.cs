@@ -9,9 +9,9 @@ namespace TDD.CleanArchitecture.Controllers
 {
     public class ScholarshipController : Controller
     {
-        IApplScholarshipService _service;
+        IApplyScholarshipService _service;
 
-        public ScholarshipController(IApplScholarshipService service)
+        public ScholarshipController(IApplyScholarshipService service)
         {
             this._service = service;
         }

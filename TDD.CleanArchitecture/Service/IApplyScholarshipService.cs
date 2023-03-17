@@ -1,6 +1,6 @@
 ﻿namespace TDD.CleanArchitecture.Service
 {
-    public interface IApplScholarshipService
+    public interface IApplyScholarshipService
     {
         public void Apply(ApplicationForm applicationForm);
     }

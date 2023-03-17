@@ -47,10 +47,10 @@ namespace TDD.CleanArchitecture.Tests
         {
             ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
 
-            var applScholarshipService = new Mock<IApplScholarshipService>();
-            applScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(exception);
+            var applyScholarshipService = new Mock<IApplyScholarshipService>();
+            applyScholarshipService.Setup(m => m.Apply(applicationForm)).Throws(exception);
 
-            var controller = new ScholarshipController(applScholarshipService.Object);
+            var controller = new ScholarshipController(applyScholarshipService.Object);
             var response = controller.Apply(applicationForm);
             return response;
         }
