@@ -29,6 +29,12 @@ namespace TDD.CleanArchitecture.Controllers
                 content.StatusCode = StatusCodes.Status400BadRequest;
                 return content;
             }
+            catch (ScholarshipNotExistException e)
+            {
+                var content = Content("369");
+                content.StatusCode = StatusCodes.Status400BadRequest;
+                return content;
+            }
 
             return StatusCode(StatusCodes.Status200OK);
         }
