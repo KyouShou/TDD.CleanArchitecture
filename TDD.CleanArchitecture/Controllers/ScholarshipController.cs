@@ -22,6 +22,10 @@ namespace TDD.CleanArchitecture.Controllers
             try
             {
                 _service.Apply(applicationForm);
+
+                var content = Content("");
+                content.StatusCode = StatusCodes.Status200OK;
+                return content;
             }
             catch (StudentNotExistException e)
             {
@@ -47,8 +51,6 @@ namespace TDD.CleanArchitecture.Controllers
                 content.StatusCode = StatusCodes.Status500InternalServerError;
                 return content;
             }
-
-            return StatusCode(StatusCodes.Status200OK);
         }
     }
 }
