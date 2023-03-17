@@ -43,7 +43,19 @@ namespace TDD.CleanArchitecture.Tests
             Assert.AreEqual("369", content);
         }
 
-        private static IActionResult Assume_Controller_Catch_Exception(Exception exception)
+        [Test]
+        public void Data_Access_Error()
+        {
+            IActionResult response = Assume_Controller_Catch_Exception(new DataAccessErrorException());
+
+            var statusCode = ((ContentResult)response).StatusCode;
+            var content = ((ContentResult)response).Content;
+
+            Assert.AreEqual(500, statusCode);
+            Assert.AreEqual("666", content);
+        }
+
+            private static IActionResult Assume_Controller_Catch_Exception(Exception exception)
         {
             ApplicationForm applicationForm = new ApplicationForm(9527L, 55688L);
 
