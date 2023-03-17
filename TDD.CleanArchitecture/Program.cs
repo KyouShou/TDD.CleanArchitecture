@@ -1,7 +1,10 @@
+using TDD.CleanArchitecture.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IApplScholarshipService , ApplScholarshipService>();
 
 var app = builder.Build();
 
